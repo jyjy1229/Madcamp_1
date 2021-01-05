@@ -36,14 +36,13 @@ import kotlin.collections.ArrayList
 class Gallery : Fragment() {
     private lateinit var addReview: TextView
     private lateinit var reviewList: ListView
-    private var reviewListData: ArrayList<DeliveryReview> = ArrayList<DeliveryReview>()
+    private var reviewListData: ArrayList<DeliveryReview> = ArrayList()
     private lateinit var addDeliveryReviewDialog: AddDeliveryReviewDialog
     private lateinit var deliveryReviewDialog: DeliveryReviewDialog
     private var takenPhoto: File? = null
 
     /* Review Storage */
     private lateinit var reviewTimeStamp: String
-    private lateinit var reviewTimeStampShow: String
     private var reviewImagesStorage: File = File("")
     private lateinit var deliveryReviewAdapter: DeliveryReviewAdapter
 
@@ -55,7 +54,6 @@ class Gallery : Fragment() {
         private const val REQUEST_READ_STORAGE: Int = 101
         private const val REQUEST_TAKE_PHOTO_ADD_REVIEW: Int = 1
         private const val REQUEST_TAKE_PHOTO_REVIEW: Int = 2
-        private const val TAKE_PHOTO: Int = 3
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -194,9 +192,9 @@ class Gallery : Fragment() {
         var imageDir: File = File("")
         imageDir =
             if (requestCode == REQUEST_TAKE_PHOTO_ADD_REVIEW)
-                File(storageDir, "/$reviewTimeStamp")
+                File(storageDir, "/delivery/$reviewTimeStamp")
             else
-                File(storageDir, "/" + deliveryReviewDialog.reviewTime)
+                File(storageDir, "/delivery/" + deliveryReviewDialog.reviewTime)
         reviewImagesStorage = imageDir
         if (!imageDir.isDirectory) {
             imageDir.mkdirs()
@@ -346,6 +344,7 @@ class Gallery : Fragment() {
                             val intent = Intent(activity, ImageSlider::class.java).apply {
                                 putExtra("path", path)
                                 putExtra("time", addDeliveryReviewDialog.timeStampReviewAdded)
+                                putExtra("type", "delivery")
                             }
                             startActivity(intent)
                         }
@@ -377,6 +376,7 @@ class Gallery : Fragment() {
                         val intent = Intent(activity, ImageSlider::class.java).apply {
                             putExtra("path", path)
                             putExtra("time", deliveryReviewDialog.reviewTime)
+                            putExtra("type", "delivery")
                         }
                         startActivity(intent)
                     }

@@ -14,8 +14,7 @@ import android.widget.RatingBar
 import android.widget.TextView
 import java.io.File
 
-class DeliveryReviewAdapter(val context: Context, val list: ArrayList<DeliveryReview>) :
-    BaseAdapter() {
+class VisitReviewAdapter(val context: Context, val list: ArrayList<VisitReviewData>) :BaseAdapter(){
     override fun getCount(): Int {
         return list.size
     }
@@ -30,16 +29,16 @@ class DeliveryReviewAdapter(val context: Context, val list: ArrayList<DeliveryRe
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view: View =
-            LayoutInflater.from(context).inflate(R.layout.delivery_review_layout, parent, false)
-        val deliveryReviewRestaurant: TextView = view.findViewById(R.id.delivery_review_restaurant)
-        val deliveryReviewTime: TextView = view.findViewById(R.id.delivery_review_time)
-        val deliveryReviewRatingBar: RatingBar = view.findViewById(R.id.delivery_review_rating_bar)
-        val deliveryReviewImage: ImageView = view.findViewById(R.id.delivery_review_image)
+            LayoutInflater.from(context).inflate(R.layout.visit_review_layout, parent, false)
+        val deliveryReviewRestaurant: TextView = view.findViewById(R.id.visit_review_restaurant)
+        val deliveryReviewTime: TextView = view.findViewById(R.id.visit_review_time)
+        val deliveryReviewRatingBar: RatingBar = view.findViewById(R.id.visit_review_rating_bar)
+        val deliveryReviewImage: ImageView = view.findViewById(R.id.visit_review_image)
         val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         if (storageDir != null) {
             Log.d("Oh", storageDir.absolutePath)
         }
-        val imageDir: File = File(storageDir, "/delivery/"+list[position].timeStamp)
+        val imageDir: File = File(storageDir, "/visit/"+list[position].timeStamp)
         if(imageDir.listFiles()!=null && imageDir.listFiles().size > 0){
             val thumbnailImage = imageDir.listFiles()[0].absolutePath
             val bitmap: Bitmap = BitmapFactory.decodeFile(thumbnailImage)
@@ -51,5 +50,5 @@ class DeliveryReviewAdapter(val context: Context, val list: ArrayList<DeliveryRe
         deliveryReviewTime.text = timeShow
         deliveryReviewRatingBar.rating = list[position].rating.toFloat()
         return view
-        }
     }
+}
